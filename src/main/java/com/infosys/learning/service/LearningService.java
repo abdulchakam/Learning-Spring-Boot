@@ -1,7 +1,13 @@
 package com.infosys.learning.service;
 
 import com.infosys.learning.dto.Person;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Service
 public class LearningService {
@@ -40,5 +46,18 @@ public class LearningService {
 
         return fullName;
 
+    }
+
+    public Person getPerson(String name, int yearOfBirth){
+        Person person = new Person();
+
+        Calendar calendar = Calendar.getInstance();
+        int thisYear = calendar.get(Calendar.YEAR);
+        int age = thisYear - yearOfBirth;
+
+        person.setName(name);
+        person.setYearOfBirth(age);
+
+        return person;
     }
 }
