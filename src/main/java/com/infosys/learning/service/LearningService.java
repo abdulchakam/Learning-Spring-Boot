@@ -82,4 +82,15 @@ public class LearningService {
 
         return "Register Success !";
     }
+
+
+    public User login(UserRequest userRequest){
+        User checkUsername = userRepository.findByUserName(userRequest.getUsername());
+        User checkPassword = userRepository.findByPassWord(userRequest.getPassword());
+
+        if (checkUsername != null && checkPassword != null){
+            return userRepository.findByUserName(userRequest.getUsername());
+        }
+        return null;
+    }
 }
