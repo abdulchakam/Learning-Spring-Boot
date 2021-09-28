@@ -1,7 +1,11 @@
 package com.infosys.learning.service;
 
 import com.infosys.learning.dto.Person;
+import com.infosys.learning.dto.UserRequest;
+import com.infosys.learning.model.User;
+import com.infosys.learning.repository.UserRepository;
 import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +15,9 @@ import java.util.Date;
 
 @Service
 public class LearningService {
+
+    @Autowired
+    UserRepository userRepository;
 
     public String getName(String gender){
         Person person = new Person();
@@ -59,5 +66,20 @@ public class LearningService {
         person.setYearOfBirth(age);
 
         return person;
+    }
+
+    public String register(UserRequest userRequest){
+        User existUser = userRepository.findByUserName(userRequest.getUsername());
+
+        if (existUser !=null){
+            return "Register failed, username is already exist";
+        }
+
+        User user = new User();
+        user.setUserName(userRequest.getUsername());
+        user.setPassWord(userRequest.getPassword());
+        userRepository.save(user);
+
+        return "Register Success !";
     }
 }
