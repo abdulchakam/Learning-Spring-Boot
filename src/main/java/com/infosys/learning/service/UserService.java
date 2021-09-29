@@ -32,7 +32,7 @@ public class UserService {
         User checkUser = userRepository.findByUserNameAndPassWord(userRequest.getUsername(), userRequest.getPassword());
 
         if (checkUser != null){
-            return userRepository.findByUserNameAndPassWord(userRequest.getUsername(), userRequest.getPassword());
+            return checkUser;
         }
         return null;
     }
