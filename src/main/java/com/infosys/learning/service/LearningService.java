@@ -1,17 +1,13 @@
 package com.infosys.learning.service;
 
+import com.infosys.learning.dto.Data;
+import com.infosys.learning.dto.DataPersonal;
 import com.infosys.learning.dto.Person;
-import com.infosys.learning.dto.UserRequest;
-import com.infosys.learning.model.User;
 import com.infosys.learning.repository.UserRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Calendar;
-import java.util.Date;
 
 @Service
 public class LearningService {
@@ -55,42 +51,15 @@ public class LearningService {
 
     }
 
-    public Person getPerson(String name, int yearOfBirth){
-        Person person = new Person();
+    public DataPersonal getPerson(String name, int yearOfBirth){
 
         Calendar calendar = Calendar.getInstance();
         int thisYear = calendar.get(Calendar.YEAR);
         int age = thisYear - yearOfBirth;
 
-        person.setName(name);
-        person.setYearOfBirth(age);
+        Data data = new Data();
+        data.setAge(age);
 
-        return person;
-    }
-
-    public String register(UserRequest userRequest){
-        User existUser = userRepository.findByUserName(userRequest.getUsername());
-
-        if (existUser !=null){
-            return "Register failed, username is already exist";
-        }
-
-        User user = new User();
-        user.setUserName(userRequest.getUsername());
-        user.setPassWord(userRequest.getPassword());
-        userRepository.save(user);
-
-        return "Register Success !";
-    }
-
-
-    public User login(UserRequest userRequest){
-        User checkUsername = userRepository.findByUserName(userRequest.getUsername());
-        User checkPassword = userRepository.findByPassWord(userRequest.getPassword());
-
-        if (checkUsername != null && checkPassword != null){
-            return userRepository.findByUserName(userRequest.getUsername());
-        }
-        return null;
+        return new DataPersonal(name, data);
     }
 }

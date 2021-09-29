@@ -1,6 +1,5 @@
 package com.infosys.learning.dto;
 
-import org.springframework.stereotype.Service;
 
 public class Person {
 
